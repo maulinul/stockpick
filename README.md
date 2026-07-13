@@ -17,7 +17,27 @@ lalu buka `http://localhost:8000`). Tidak butuh instalasi apa pun.
 - Toolbar: sort (terbaru/terlama/ticker/risk/reward) + filter chip (hari
   ini, minggu ini, punya RR, fresh buy).
 - Tema: Gelap / Siang / Auto (ikut jam — 06.00–17.59 = siang).
-- Shortcut keyboard: `N` tambah kartu, `/` fokus pencarian, `Esc` tutup modal.
+- Shortcut keyboard: `N` tambah kartu, `/` fokus pencarian, `Ctrl/Cmd+K`
+  command palette, `Esc` tutup modal.
+
+## Upgrade Market Aurora
+
+Antarmuka terbaru tetap berjalan sebagai satu file vanilla, dengan:
+
+- Background Market Aurora dan partikel data reaktif berbasis canvas.
+- Market Pulse dashboard untuk total kartu, fresh buy, aktivitas harian,
+  rata-rata RR, top opportunity, dan sinyal risiko.
+- Lima mode eksplorasi: Kartu, Timeline, Tabel, Heatmap, dan Fokus.
+- Kartu dengan status peluang/risiko, pointer glow, tilt ringan, dan
+  mini visual risk/reward.
+- Detail saham dengan price-zone support/resistance, sparkline, dan
+  visual risk/reward proporsional.
+- Analysis workspace dengan tahapan input, parsing animation, field
+  highlight, dan live card preview.
+- Tema Aurora, Midnight, Champagne, serta Siang.
+- Tingkat animasi Off, Subtle, dan Dynamic; termasuk dukungan
+  `prefers-reduced-motion`.
+- Layout responsif untuk desktop dan mobile.
 
 ## Penyimpanan data
 
