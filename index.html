@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Log Kartu Saham</title>
+<link rel="icon" type="image/svg+xml" href="stockpick-icon.svg">
 <style>
   :root {
     --bg-0: #05070a;
@@ -919,6 +920,16 @@
   }
 
   .brand-block { min-width: 210px; }
+  .brand-title { display:flex; align-items:center; gap:9px; }
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    border-radius: 11px;
+    filter: drop-shadow(0 7px 16px var(--emerald-glow));
+    transition: transform .28s var(--ease), filter .28s ease;
+  }
+  .brand-title:hover .brand-icon { transform:translateY(-2px) rotate(-3deg) scale(1.04); filter:drop-shadow(0 9px 22px var(--emerald-glow)); }
   .brand-kicker {
     display: block;
     margin: 5px 0 0 16px;
@@ -1112,6 +1123,7 @@
     .stage { padding:12px 12px 64px; }
     .topbar { top:7px; padding:9px 10px; }
     .brand-kicker,.market-status,.theme-switch { display:none; }
+    .brand-icon { width:31px; height:31px; }
     .topbar h1 { font-size:16px; }
     .hero-copy { padding:21px; }
     .hero h2 { font-size:30px; }
@@ -1143,7 +1155,10 @@
 <div class="stage">
   <div class="topbar">
     <div class="brand-block">
-      <h1><span class="live-dot" aria-hidden="true"></span>Log Kartu Saham</h1>
+      <div class="brand-title">
+        <img class="brand-icon" src="stockpick-icon.svg" alt="" aria-hidden="true">
+        <h1>Log Kartu Saham</h1>
+      </div>
       <span class="brand-kicker">Personal market intelligence</span>
     </div>
     <div class="top-actions">
