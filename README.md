@@ -37,6 +37,7 @@ Antarmuka terbaru tetap berjalan sebagai satu file vanilla, dengan:
 - Tema Aurora, Midnight, Champagne, serta Siang.
 - Tingkat animasi Off, Subtle, dan Dynamic; termasuk dukungan
   `prefers-reduced-motion`.
+- Animated candlestick icon untuk brand header dan favicon SVG.
 - Layout responsif untuk desktop dan mobile.
 
 ## Penyimpanan data
@@ -68,3 +69,4 @@ token* yang scope-nya dibatasi ke satu repo, bukan token akses penuh.
 ## Struktur
 
 - `index.html` — seluruh aplikasi (HTML, CSS, JS) dalam satu file.
+- `stockpick-icon.svg` — ikon candlestick-orbit beranimasi untuk brand dan favicon.
