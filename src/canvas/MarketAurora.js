@@ -17,8 +17,14 @@ export class MarketAurora {
   constructor(canvasElement) {
     if (!canvasElement) return;
     this.#canvas = canvasElement;
-    this.#ctx = canvasElement.getContext('2d');
-    this.#initEvents();
+    try {
+      this.#ctx = canvasElement.getContext('2d');
+    } catch {
+      this.#ctx = null;
+    }
+    if (this.#ctx) {
+      this.#initEvents();
+    }
   }
 
   setMotionMode(mode) {
@@ -33,7 +39,7 @@ export class MarketAurora {
   }
 
   start() {
-    if (this.#running || this.#motionMode === 'off') return;
+    if (!this.#ctx || this.#running || this.#motionMode === 'off') return;
     this.#running = true;
     this.#loop();
   }
@@ -47,7 +53,7 @@ export class MarketAurora {
   }
 
   resize = () => {
-    if (!this.#canvas) return;
+    if (!this.#canvas || !this.#ctx) return;
     this.#dpr = Math.min(window.devicePixelRatio || 1, 1.7);
     this.#width = window.innerWidth;
     this.#height = window.innerHeight;
@@ -73,7 +79,7 @@ export class MarketAurora {
   }
 
   #loop = () => {
-    if (!this.#running) return;
+    if (!this.#running || !this.#ctx) return;
 
     if (document.hidden || this.#motionMode === 'off') {
       this.#clear();
@@ -87,6 +93,7 @@ export class MarketAurora {
 
   #draw() {
     const ctx = this.#ctx;
+    if (!ctx) return;
     const w = this.#width;
     const h = this.#height;
     ctx.clearRect(0, 0, w, h);
@@ -131,6 +138,7 @@ export class MarketAurora {
   }
 
   #initEvents() {
+    if (!this.#ctx) return;
     window.addEventListener("resize", this.resize, { passive: true });
     
     const onPointerMove = throttle((ev) => {

@@ -6,7 +6,7 @@ import { createUiSlice } from './state/uiSlice.js';
 import { createSyncSlice } from './state/syncSlice.js';
 import { MarketAurora } from './canvas/MarketAurora.js';
 import { registerKeyboardShortcuts } from './utils/keyboard.js';
-import { riskPctOf, rewardPctOf, signalOf } from './utils/calc.js';
+import { riskPctOf, rewardPctOf } from './utils/calc.js';
 import { todayStr, weekStartStr } from './utils/date.js';
 
 import { renderHeader } from './components/Header.js';
@@ -35,8 +35,12 @@ export function initApp(rootElement) {
   const uiActions = createUiSlice(store);
   const syncActions = createSyncSlice(store);
 
-  // Setup Canvas
-  const canvasEl = document.getElementById('marketCanvas');
+  // Setup Canvas safely
+  let canvasEl = document.getElementById('marketCanvas');
+  if (!canvasEl) {
+    canvasEl = el('canvas', { id: 'marketCanvas', style: 'position:fixed;inset:0;pointer-events:none;z-index:var(--z-canvas)' });
+    document.body.prepend(canvasEl);
+  }
   const aurora = new MarketAurora(canvasEl);
 
   const toastAction = (msg, isErr = false) => {
