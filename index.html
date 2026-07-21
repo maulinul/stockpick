@@ -415,11 +415,13 @@
 
   .log-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
   }
-  @media (max-width: 560px) { .log-list { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 380px) { .log-list { grid-template-columns: 1fr; } }
+  @media (max-width: 1400px) { .log-list { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 1000px) { .log-list { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 680px)  { .log-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 400px)  { .log-list { grid-template-columns: 1fr; } }
 
   .log-card {
     min-height: 186px;
@@ -500,14 +502,16 @@
   /* ---------- Entry/Stop + potensi loss/reward di muka kartu ---------- */
 
   .card-lvls {
-    display: flex;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    margin-top: 4px;
   }
   .card-lvl {
     flex: 1;
     min-width: 0;
     border-radius: 8px;
-    padding: 5px 7px;
+    padding: 4px 6px;
     background: var(--surface);
     border: 1px solid var(--border-soft);
     position: relative;
@@ -521,16 +525,21 @@
   }
   .card-lvl.entry::before { background: var(--info); }
   .card-lvl.stop::before { background: var(--ruby); }
+  .card-lvl.support::before { background: var(--emerald); }
+  .card-lvl.resist::before { background: var(--gold); }
   .card-lvl .k {
     font: 700 8px/1 var(--sans);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text-faint);
     display: block;
     margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .card-lvl .v {
-    font: 700 12.5px/1 var(--mono);
+    font: 700 11.5px/1 var(--mono);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     overflow: hidden;
@@ -538,6 +547,8 @@
   }
   .card-lvl.entry .v { color: #7fb1de; }
   .card-lvl.stop .v { color: var(--ruby); }
+  .card-lvl.support .v { color: var(--emerald); }
+  .card-lvl.resist .v { color: var(--gold); }
 
   .card-rr-mini {
     display: flex;
@@ -826,7 +837,7 @@
   :root {
     --cyan: #58c9ff;
     --violet: #8b7cff;
-    --page-max: 1180px;
+    --page-max: 1440px;
     --header-h: 76px;
   }
 
@@ -1163,6 +1174,7 @@
     </div>
     <div class="top-actions">
       <span class="market-status" id="marketStatus">Market Closed</span>
+      <span class="market-status" id="autoSyncBadge" title="Status Auto-Sync Data">Auto-Sync: Local</span>
       <div class="theme-switch" role="group" aria-label="Pilih tema">
         <button type="button" data-theme-opt="dark">Gelap</button>
         <button type="button" data-theme-opt="light">Siang</button>
@@ -1255,6 +1267,16 @@
         <label for="ghToken">GitHub token (classic atau fine-grained)</label>
         <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
         <div class="field-note">Butuh scope <code>repo</code> (untuk simpan ke repo) dan/atau <code>gist</code> (untuk simpan ke Gist). Buat di github.com → Settings → Developer settings → Personal access tokens.</div>
+      </div>
+
+      <div class="field">
+        <label for="ghAutoSyncMode">Mode Auto-Sync</label>
+        <select id="ghAutoSyncMode">
+          <option value="off">Mati (Hanya sync LocalStorage lokal)</option>
+          <option value="repo">Otomatis Sync ke Repo GitHub (tiap ubah data)</option>
+          <option value="gist">Otomatis Sync ke Gist GitHub (tiap ubah data)</option>
+        </select>
+        <div class="field-note">Bila diaktifkan, data kartu yang kamu tambah/edit/hapus akan tersinkron otomatis ke GitHub setelah 1.5 detik.</div>
       </div>
 
       <fieldset data-tone="neutral">
@@ -1484,6 +1506,7 @@
 
   function saveEntries() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    if (typeof triggerAutoSync === "function") triggerAutoSync();
   }
 
   function esc(s) {
@@ -1553,10 +1576,10 @@
 
       if (title.includes("kondisi")) {
         out.kondisiText = body;
-        const mS = body.match(/S\s*(\d+)\s*[-–]\s*(\d+)/i);
-        const mR = body.match(/R\s*(\d+)\s*[-–]\s*(\d+)/i);
-        if (mS) out.kondisiS = `${mS[1]}-${mS[2]}`;
-        if (mR) out.kondisiR = `${mR[1]}-${mR[2]}`;
+        const mS = body.match(/(?:S|Support)\s*:?\s*([\d.,]+(?:\s*[-–,]\s*[\d.,]+)*)/i);
+        const mR = body.match(/(?:R|Resistance|Target)\s*:?\s*([\d.,]+(?:\s*[-–,]\s*[\d.,]+)*)/i);
+        if (mS) out.kondisiS = mS[1].trim().replace(/\s*[-–]\s*/g, " - ");
+        if (mR) out.kondisiR = mR[1].trim().replace(/\s*[-–]\s*/g, " - ");
       } else if (title.includes("skenario")) {
         out.skenario = body;
       } else if (title.includes("bandarmology")) {
@@ -1678,11 +1701,23 @@
     const target = ($("rrTarget").value || "").trim();
     const stop = ($("rrStop").value || "").trim();
     const fresh = ($("sFresh").value || "").trim();
+    const sup = ($("sKondisiS").value || "").trim();
+    const res = ($("sKondisiR").value || "").trim();
+    const entryPrice = ($("fFreshPrice").value || price || "—").trim();
+    const stopPrice = stop ? stop.split(" ")[0] : "";
+    const resLevel = res || (target ? target.split(" ")[0] : "");
+
     $("formPreview").innerHTML = `
       <div class="card-tags">${fresh ? '<span class="status-tag buy">Fresh buy</span>' : '<span class="status-tag">Watchlist</span>'}</div>
       <div class="big" style="margin-top:14px">$${esc(ticker)}</div>
       <div class="preview-price">${esc(price)}</div>
       <p>${esc(desc)}</p>
+      <div class="card-lvls">
+        ${entryPrice ? `<div class="card-lvl entry"><span class="k">Entry</span><span class="v">${esc(entryPrice)}</span></div>` : ""}
+        ${stopPrice ? `<div class="card-lvl stop"><span class="k">Stop loss</span><span class="v">${esc(stopPrice)}</span></div>` : ""}
+        ${sup ? `<div class="card-lvl support"><span class="k">S (Support)</span><span class="v">${esc(sup)}</span></div>` : ""}
+        ${resLevel ? `<div class="card-lvl resist"><span class="k">R (Target)</span><span class="v">${esc(resLevel)}</span></div>` : ""}
+      </div>
       ${(target || stop) ? `<div class="card-rr-mini"><span class="seg stop" style="width:40%">${esc(stop || "Risk")}</span><span class="seg target" style="width:60%">${esc(target || "Target")}</span></div>` : ""}
     `;
   }
@@ -1960,11 +1995,17 @@
     const s = entry.s || {};
     const entryPrice = s.freshPrice || entry.harga;
     const stopPrice = s.rrStop ? s.rrStop.split(" ")[0] : "";
-    if (!entryPrice && !stopPrice) return "";
+    const supLevel = s.kondisiS || "";
+    const resLevel = s.kondisiR || (s.rrTarget ? s.rrTarget.split(" ")[0] : "");
+
+    if (!entryPrice && !stopPrice && !supLevel && !resLevel) return "";
+
     return `
       <div class="card-lvls">
-        <div class="card-lvl entry"><span class="k">Entry</span><span class="v">${esc(entryPrice || "—")}</span></div>
-        <div class="card-lvl stop"><span class="k">Stop loss</span><span class="v">${esc(stopPrice || "—")}</span></div>
+        ${entryPrice ? `<div class="card-lvl entry" title="Entry price"><span class="k">Entry</span><span class="v">${esc(entryPrice)}</span></div>` : ""}
+        ${stopPrice ? `<div class="card-lvl stop" title="Stop loss level"><span class="k">Stop loss</span><span class="v">${esc(stopPrice)}</span></div>` : ""}
+        ${supLevel ? `<div class="card-lvl support" title="Support level"><span class="k">S (Support)</span><span class="v">${esc(supLevel)}</span></div>` : ""}
+        ${resLevel ? `<div class="card-lvl resist" title="Resistance / Target"><span class="k">R (Target)</span><span class="v">${esc(resLevel)}</span></div>` : ""}
       </div>`;
   }
 
@@ -2680,6 +2721,7 @@
   // (sandbox artefak memblokir semua request keluar).
 
   const GH_KEY = "kartuSahamGh.v1";
+  let autoSyncTimer = null;
 
   function loadGhSettings() {
     try { return JSON.parse(localStorage.getItem(GH_KEY) || "{}"); } catch (e) { return {}; }
@@ -2688,32 +2730,80 @@
     const cur = loadGhSettings();
     const next = { ...cur, ...patch };
     localStorage.setItem(GH_KEY, JSON.stringify(next));
+    updateAutoSyncBadge();
     return next;
   }
 
   function ghFields() {
     return {
-      token: $("ghToken").value.trim(),
-      owner: $("ghOwner").value.trim(),
-      repo: $("ghRepo").value.trim(),
-      branch: $("ghBranch").value.trim() || "main",
-      path: $("ghPath").value.trim() || "data/kartu-saham.json",
-      gistId: $("gistId").value.trim(),
-      gistDesc: $("gistDesc").value.trim() || "Log kartu saham",
-      gistPublic: $("gistPublic").checked
+      token: $("ghToken") ? $("ghToken").value.trim() : "",
+      owner: $("ghOwner") ? $("ghOwner").value.trim() : "",
+      repo: $("ghRepo") ? $("ghRepo").value.trim() : "",
+      branch: ($("ghBranch") ? $("ghBranch").value.trim() : "") || "main",
+      path: ($("ghPath") ? $("ghPath").value.trim() : "") || "data/kartu-saham.json",
+      gistId: $("gistId") ? $("gistId").value.trim() : "",
+      gistDesc: ($("gistDesc") ? $("gistDesc").value.trim() : "") || "Log kartu saham",
+      gistPublic: $("gistPublic") ? $("gistPublic").checked : false,
+      autoSyncMode: $("ghAutoSyncMode") ? $("ghAutoSyncMode").value : "off"
     };
   }
 
   function fillGhFieldsFromSettings() {
     const g = loadGhSettings();
-    $("ghToken").value = g.token || "";
-    $("ghOwner").value = g.owner || "";
-    $("ghRepo").value = g.repo || "";
-    $("ghBranch").value = g.branch || "main";
-    $("ghPath").value = g.path || "data/kartu-saham.json";
-    $("gistId").value = g.gistId || "";
-    $("gistDesc").value = g.gistDesc || "Log kartu saham";
-    $("gistPublic").checked = !!g.gistPublic;
+    if ($("ghToken")) $("ghToken").value = g.token || "";
+    if ($("ghOwner")) $("ghOwner").value = g.owner || "";
+    if ($("ghRepo")) $("ghRepo").value = g.repo || "";
+    if ($("ghBranch")) $("ghBranch").value = g.branch || "main";
+    if ($("ghPath")) $("ghPath").value = g.path || "data/kartu-saham.json";
+    if ($("gistId")) $("gistId").value = g.gistId || "";
+    if ($("gistDesc")) $("gistDesc").value = g.gistDesc || "Log kartu saham";
+    if ($("gistPublic")) $("gistPublic").checked = !!g.gistPublic;
+    if ($("ghAutoSyncMode")) $("ghAutoSyncMode").value = g.autoSyncMode || "off";
+    updateAutoSyncBadge();
+  }
+
+  function updateAutoSyncBadge(status) {
+    const badge = $("autoSyncBadge");
+    if (!badge) return;
+    const mode = $("ghAutoSyncMode") ? $("ghAutoSyncMode").value : (loadGhSettings().autoSyncMode || "off");
+    badge.removeAttribute("style");
+    if (status === "Syncing...") {
+      badge.textContent = "Syncing...";
+      badge.className = "market-status open";
+    } else if (status === "Sync Error") {
+      badge.textContent = "Auto-Sync Error";
+      badge.className = "market-status";
+      badge.style.borderColor = "var(--ruby)";
+      badge.style.color = "var(--ruby)";
+    } else {
+      if (mode === "repo") {
+        badge.textContent = "Auto-Sync: Repo";
+        badge.className = "market-status open";
+      } else if (mode === "gist") {
+        badge.textContent = "Auto-Sync: Gist";
+        badge.className = "market-status open";
+      } else {
+        badge.textContent = "Auto-Sync: Local";
+        badge.className = "market-status";
+      }
+    }
+  }
+
+  function triggerAutoSync() {
+    updateAutoSyncBadge();
+    const mode = $("ghAutoSyncMode") ? $("ghAutoSyncMode").value : (loadGhSettings().autoSyncMode || "off");
+    if (mode === "off") return;
+    clearTimeout(autoSyncTimer);
+    updateAutoSyncBadge("Syncing...");
+    autoSyncTimer = setTimeout(async () => {
+      try {
+        if (mode === "repo") await ghSaveToRepo(true);
+        else if (mode === "gist") await gistSave(true);
+        updateAutoSyncBadge("Synced");
+      } catch (e) {
+        updateAutoSyncBadge("Sync Error");
+      }
+    }, 1500);
   }
 
   function b64EncodeUnicode(str) {
@@ -2744,11 +2834,11 @@
     return body;
   }
 
-  async function ghSaveToRepo() {
+  async function ghSaveToRepo(isSilent = false) {
     const f = ghFields();
     saveGhSettings(f);
-    if (!f.owner || !f.repo) { flash("Isi owner & repo dulu", true); return; }
-    $("ghRepoStatus").textContent = "Menyimpan…";
+    if (!f.owner || !f.repo) { if (!isSilent) flash("Isi owner & repo dulu", true); throw new Error("Isi owner & repo dulu"); }
+    if ($("ghRepoStatus")) $("ghRepoStatus").textContent = "Menyimpan…";
     try {
       const contentsUrl = `https://api.github.com/repos/${f.owner}/${f.repo}/contents/${f.path}`;
       let sha = null;
@@ -2766,11 +2856,12 @@
           ...(sha ? { sha } : {})
         })
       });
-      $("ghRepoStatus").textContent = `Tersimpan ke ${f.owner}/${f.repo}@${f.branch}:${f.path}`;
-      flash(`${entries.length} kartu tersimpan ke repo GitHub`);
+      if ($("ghRepoStatus")) $("ghRepoStatus").textContent = `Tersimpan ke ${f.owner}/${f.repo}@${f.branch}:${f.path}`;
+      if (!isSilent) flash(`${entries.length} kartu tersimpan ke repo GitHub`);
     } catch (e) {
-      $("ghRepoStatus").textContent = "Gagal: " + e.message;
-      flash("Simpan ke repo gagal: " + e.message, true);
+      if ($("ghRepoStatus")) $("ghRepoStatus").textContent = "Gagal: " + e.message;
+      if (!isSilent) flash("Simpan ke repo gagal: " + e.message, true);
+      throw e;
     }
   }
 
@@ -2796,10 +2887,10 @@
     }
   }
 
-  async function gistSave() {
+  async function gistSave(isSilent = false) {
     const f = ghFields();
     saveGhSettings(f);
-    $("ghGistStatus").textContent = "Menyimpan…";
+    if ($("ghGistStatus")) $("ghGistStatus").textContent = "Menyimpan…";
     const filename = "kartu-saham-log.json";
     try {
       let result;
@@ -2817,14 +2908,15 @@
             files: { [filename]: { content: exportJsonText() } }
           })
         });
-        $("gistId").value = result.id;
+        if ($("gistId")) $("gistId").value = result.id;
         saveGhSettings({ gistId: result.id });
       }
-      $("ghGistStatus").textContent = `Tersimpan: ${result.html_url}`;
-      flash(`${entries.length} kartu tersimpan ke Gist`);
+      if ($("ghGistStatus")) $("ghGistStatus").textContent = `Tersimpan: ${result.html_url}`;
+      if (!isSilent) flash(`${entries.length} kartu tersimpan ke Gist`);
     } catch (e) {
-      $("ghGistStatus").textContent = "Gagal: " + e.message;
-      flash("Simpan ke Gist gagal: " + e.message, true);
+      if ($("ghGistStatus")) $("ghGistStatus").textContent = "Gagal: " + e.message;
+      if (!isSilent) flash("Simpan ke Gist gagal: " + e.message, true);
+      throw e;
     }
   }
 
@@ -2852,13 +2944,14 @@
   }
 
   fillGhFieldsFromSettings();
-  ["ghToken", "ghOwner", "ghRepo", "ghBranch", "ghPath", "gistId", "gistDesc"].forEach(id =>
-    $(id).addEventListener("change", () => saveGhSettings(ghFields())));
-  $("gistPublic").addEventListener("change", () => saveGhSettings(ghFields()));
-  $("btnGhSave").addEventListener("click", ghSaveToRepo);
-  $("btnGhLoad").addEventListener("click", ghLoadFromRepo);
-  $("btnGistSave").addEventListener("click", gistSave);
-  $("btnGistLoad").addEventListener("click", gistLoad);
+  ["ghToken", "ghOwner", "ghRepo", "ghBranch", "ghPath", "gistId", "gistDesc", "ghAutoSyncMode"].forEach(id => {
+    if ($(id)) $(id).addEventListener("change", () => saveGhSettings(ghFields()));
+  });
+  if ($("gistPublic")) $("gistPublic").addEventListener("change", () => saveGhSettings(ghFields()));
+  if ($("btnGhSave")) $("btnGhSave").addEventListener("click", () => ghSaveToRepo(false));
+  if ($("btnGhLoad")) $("btnGhLoad").addEventListener("click", ghLoadFromRepo);
+  if ($("btnGistSave")) $("btnGistSave").addEventListener("click", () => gistSave(false));
+  if ($("btnGistLoad")) $("btnGistLoad").addEventListener("click", gistLoad);
 
   initialLoad();
 </script>
