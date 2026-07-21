@@ -1,0 +1,132 @@
+/* src/styles/themes.css - Theme Color Schemes */
+
+/* 1. Dark (Aurora - Default) */
+:root,
+:root[data-theme="dark"] {
+  --bg-0: #05070a;
+  --bg-1: #0b0f16;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-border-strong: rgba(255, 255, 255, 0.16);
+  --surface: #10151d;
+  --surface-raised: #141a23;
+  --surface-2: #18202c;
+  --surface-3: #1f2937;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.055);
+  --text: #eef2f7;
+  --text-dim: #96a2b3;
+  --text-faint: #5c6675;
+  --gold: #d9ac57;
+  --gold-glow: rgba(217, 172, 87, 0.35);
+  --gold-soft: rgba(217, 172, 87, 0.14);
+  --emerald: #2bd8a6;
+  --emerald-glow: rgba(43, 216, 166, 0.32);
+  --emerald-soft: rgba(43, 216, 166, 0.13);
+  --ruby: #f0546e;
+  --ruby-glow: rgba(240, 84, 110, 0.32);
+  --ruby-soft: rgba(240, 84, 110, 0.14);
+  --info: #5aa7e6;
+  --info-soft: rgba(90, 167, 230, 0.13);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 20px rgba(43,216,166,0.15);
+}
+
+/* 2. Midnight (Deep OLED Black) */
+:root[data-theme="midnight"] {
+  --bg-0: #000000;
+  --bg-1: #04060a;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-strong: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-strong: rgba(255, 255, 255, 0.14);
+  --surface: #0a0e14;
+  --surface-raised: #0f141d;
+  --surface-2: #141b26;
+  --surface-3: #1c2534;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.04);
+  --text: #f3f6fa;
+  --text-dim: #8e9bb0;
+  --text-faint: #525d6e;
+  --gold: #e2b765;
+  --gold-glow: rgba(226, 183, 101, 0.35);
+  --gold-soft: rgba(226, 183, 101, 0.12);
+  --emerald: #34e1b0;
+  --emerald-glow: rgba(52, 225, 176, 0.32);
+  --emerald-soft: rgba(52, 225, 176, 0.12);
+  --ruby: #f85c76;
+  --ruby-glow: rgba(248, 92, 118, 0.32);
+  --ruby-soft: rgba(248, 92, 118, 0.12);
+  --info: #64b2f0;
+  --info-soft: rgba(100, 178, 240, 0.12);
+}
+
+/* 3. Champagne (Warm Gold Accent) */
+:root[data-theme="champagne"] {
+  --bg-0: #0d0a07;
+  --bg-1: #14100b;
+  --glass: rgba(217, 172, 87, 0.04);
+  --glass-strong: rgba(217, 172, 87, 0.08);
+  --glass-border: rgba(217, 172, 87, 0.12);
+  --glass-border-strong: rgba(217, 172, 87, 0.22);
+  --surface: #1a150f;
+  --surface-raised: #221c14;
+  --surface-2: #2b2319;
+  --surface-3: #362d20;
+  --border: rgba(217, 172, 87, 0.1);
+  --border-soft: rgba(217, 172, 87, 0.06);
+  --text: #f9f5ed;
+  --text-dim: #b3a594;
+  --text-faint: #756858;
+  --gold: #e8c078;
+  --gold-glow: rgba(232, 192, 120, 0.4);
+  --gold-soft: rgba(232, 192, 120, 0.16);
+  --emerald: #3ad2a2;
+  --emerald-glow: rgba(58, 210, 162, 0.32);
+  --emerald-soft: rgba(58, 210, 162, 0.13);
+  --ruby: #ee5d6c;
+  --ruby-glow: rgba(238, 93, 108, 0.32);
+  --ruby-soft: rgba(238, 93, 108, 0.14);
+  --info: #6bb0ea;
+  --info-soft: rgba(107, 176, 234, 0.14);
+}
+
+/* 4. Light (Siang — Gentle Light Mode) */
+:root[data-theme="light"] {
+  --bg-0: #c9cfd7;
+  --bg-1: #d6dbe1;
+  --glass: rgba(255, 255, 255, 0.42);
+  --glass-strong: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(30, 40, 55, 0.14);
+  --glass-border-strong: rgba(30, 40, 55, 0.24);
+  --surface: #dde1e7;
+  --surface-raised: #e6eaef;
+  --surface-2: #edf0f5;
+  --surface-3: #f4f6f9;
+  --border: rgba(30, 40, 55, 0.15);
+  --border-soft: rgba(30, 40, 55, 0.09);
+  --text: #1d2530;
+  --text-dim: #48545f;
+  --text-faint: #75808c;
+  --gold: #9a7220;
+  --gold-glow: rgba(154, 114, 32, 0.3);
+  --gold-soft: rgba(154, 114, 32, 0.14);
+  --emerald: #147a5c;
+  --emerald-glow: rgba(20, 122, 92, 0.26);
+  --emerald-soft: rgba(20, 122, 92, 0.13);
+  --ruby: #b8323f;
+  --ruby-glow: rgba(184, 50, 63, 0.26);
+  --ruby-soft: rgba(184, 50, 63, 0.12);
+  --info: #2c6ea8;
+  --info-soft: rgba(44, 110, 168, 0.13);
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-glow: 0 0 20px rgba(20,122,92,0.15);
+}
