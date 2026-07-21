@@ -67,6 +67,10 @@
 
   * { box-sizing: border-box; }
 
+  html {
+    zoom: 133%;
+  }
+
   html, body {
     margin: 0;
     min-height: 100%;
@@ -234,41 +238,41 @@
   .bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
+    gap: 8px;
+    margin-bottom: 12px;
   }
 
   .bento-tile {
-    border-radius: 14px;
-    padding: 14px 15px;
-    min-height: 82px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    min-height: 54px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
   .bento-tile .k {
-    font: 600 10.5px/1 var(--sans);
+    font: 600 9.5px/1 var(--sans);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text-faint);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
   }
 
   .bento-tile .v {
-    font: 700 24px/1 var(--mono);
+    font: 700 18px/1 var(--mono);
     font-variant-numeric: tabular-nums;
     color: var(--text);
-    margin-top: 8px;
+    margin-top: 4px;
   }
 
-  .bento-tile .v.mover { font-size: 17px; font-family: var(--serif); color: var(--gold); }
+  .bento-tile .v.mover { font-size: 15px; font-family: var(--serif); color: var(--gold); }
 
   .bento-tile .sub {
-    font: 600 12px/1 var(--mono);
-    margin-top: 3px;
+    font: 600 10.5px/1 var(--mono);
+    margin-top: 2px;
   }
   .sub.pos { color: var(--emerald); }
   .sub.neg { color: var(--ruby); }
@@ -966,28 +970,28 @@
 
   .hero {
     display: grid;
-    grid-template-columns: 1.25fr .75fr;
-    gap: 18px;
-    align-items: stretch;
-    margin: 22px 0 18px;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    margin: 10px 0 12px;
   }
-  .hero-copy { padding: 26px 28px; border-radius: 22px; position: relative; overflow: hidden; }
+  .hero-copy { padding: 14px 18px; border-radius: 16px; position: relative; overflow: hidden; }
   .hero-copy::after {
-    content: ""; position:absolute; width:240px; height:240px; right:-80px; top:-110px; border-radius:50%;
+    content: ""; position:absolute; width:160px; height:160px; right:-60px; top:-80px; border-radius:50%;
     background: radial-gradient(circle, var(--emerald-soft), transparent 68%); filter: blur(3px); pointer-events:none;
   }
-  .eyebrow { color: var(--gold); font: 700 10px/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; }
-  .hero h2 { margin:10px 0 8px; max-width:650px; font:700 clamp(27px,4vw,48px)/1.02 var(--serif); letter-spacing:-.035em; }
-  .hero p { margin:0; max-width:62ch; color:var(--text-dim); font-size:13px; line-height:1.65; }
-  .hero-shortcuts { display:flex; gap:7px; flex-wrap:wrap; margin-top:18px; }
-  .keycap { border:1px solid var(--border); background:var(--surface); border-radius:7px; padding:5px 8px; color:var(--text-faint); font:600 10px/1 var(--mono); }
-  .market-orb { border-radius:22px; min-height:190px; position:relative; overflow:hidden; display:grid; place-items:center; }
-  .orb-core { width:112px; height:112px; border-radius:50%; position:relative; background:radial-gradient(circle at 36% 32%, #d9fff4, var(--emerald) 10%, rgba(43,216,166,.16) 42%, transparent 68%); box-shadow:0 0 80px -12px var(--emerald-glow); animation:orbFloat 5s ease-in-out infinite; }
-  .orb-core::before,.orb-core::after{content:"";position:absolute;inset:-24px;border:1px solid rgba(43,216,166,.25);border-radius:50%;animation:orbSpin 12s linear infinite}
-  .orb-core::after{inset:-46px;border-color:rgba(217,172,87,.18);animation-direction:reverse;animation-duration:18s}
-  .orb-label { position:absolute; bottom:18px; left:18px; right:18px; display:flex; justify-content:space-between; color:var(--text-faint); font:700 9px/1 var(--mono); text-transform:uppercase; letter-spacing:.08em; }
-  @keyframes orbFloat{50%{transform:translateY(-7px) scale(1.03)}}
-  @keyframes orbSpin{to{transform:rotate(360deg)}}
+  .eyebrow { color: var(--gold); font: 700 9.5px/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+  .hero h2 { margin: 4px 0 4px; font: 700 clamp(16px, 2.2vw, 22px)/1.15 var(--serif); letter-spacing:-.02em; }
+  .hero p { margin: 0; max-width: 65ch; color: var(--text-dim); font-size: 11.5px; line-height: 1.4; }
+  .hero-shortcuts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .keycap { border: 1px solid var(--border); background: var(--surface); border-radius: 6px; padding: 3px 6px; color: var(--text-faint); font: 600 9px/1 var(--mono); }
+  .market-orb { border-radius: 16px; min-height: 90px; padding: 10px 16px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 170px; }
+  .orb-core { width: 44px; height: 44px; border-radius: 50%; position: relative; background: radial-gradient(circle at 36% 32%, #d9fff4, var(--emerald) 10%, rgba(43,216,166,.16) 42%, transparent 68%); box-shadow: 0 0 30px -6px var(--emerald-glow); animation: orbFloat 5s ease-in-out infinite; }
+  .orb-core::before, .orb-core::after { content: ""; position: absolute; inset: -8px; border: 1px solid rgba(43,216,166,.25); border-radius: 50%; animation: orbSpin 12s linear infinite; }
+  .orb-core::after { inset: -16px; border-color: rgba(217,172,87,.18); animation-direction: reverse; animation-duration: 18s; }
+  .orb-label { margin-top: 6px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--text-faint); font: 700 8.5px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; text-align: center; }
+  @keyframes orbFloat { 50% { transform: translateY(-3px) scale(1.02); } }
+  @keyframes orbSpin { to { transform: rotate(360deg); } }
 
   .bento { grid-template-columns: repeat(6, 1fr); }
   .bento-tile { position:relative; overflow:hidden; transition:transform .25s var(--ease), border-color .25s ease; }
@@ -1111,15 +1115,12 @@
   .palette-list { padding:7px; max-height:360px; overflow:auto; }
   .palette-item { width:100%; border:0; background:transparent; color:var(--text-dim); display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; border-radius:10px; cursor:pointer; text-align:left; }
   .palette-item:hover,.palette-item.active { background:var(--gold-soft); color:var(--gold); }
-  .palette-item kbd { color:var(--text-faint); font:600 9px/1 var(--mono); }
-
-  .settings-pop { position:fixed; z-index:25; width:280px; right:24px; top:88px; padding:15px; border-radius:16px; }
-  .settings-pop[hidden] { display:none; }
-  .settings-pop h3 { margin:0 0 12px; font:700 14px/1 var(--serif); }
-  .setting-label { display:block; color:var(--text-faint); font:700 9px/1 var(--mono); text-transform:uppercase; letter-spacing:.08em; margin:14px 0 7px; }
-  .setting-options { display:flex; gap:5px; flex-wrap:wrap; }
-  .setting-options button { border:1px solid var(--border); background:var(--surface); color:var(--text-dim); border-radius:8px; padding:7px 9px; cursor:pointer; font:700 9px/1 var(--sans); }
+  .form-panel.settings-panel { max-width: 640px; max-height: 88vh; overflow-y: auto; }
+  .setting-label { display:block; color:var(--text-faint); font:700 9px/1 var(--mono); text-transform:uppercase; letter-spacing:.08em; margin:10px 0 6px; }
+  .setting-options { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+  .setting-options button { border:1px solid var(--border); background:var(--surface); color:var(--text-dim); border-radius:8px; padding:7px 11px; cursor:pointer; font:700 11px/1 var(--sans); transition: all 0.15s ease; }
   .setting-options button.active { color:var(--gold); border-color:var(--gold); background:var(--gold-soft); }
+  .setting-options button:hover { border-color: var(--glass-border-strong); color: var(--text); }
 
   @media (max-width: 900px) {
     .bento { grid-template-columns:repeat(3,1fr); }
@@ -1247,68 +1248,7 @@
   </div>
   <div id="logList" class="log-list" hidden></div>
 
-  <details class="backup">
-    <summary>Cadangan data (localStorage browser ini saja — tidak sinkron lintas perangkat)</summary>
-    <div class="backup-body">
-      <p class="note">Data tersimpan di browser ini saja. Kalau ganti device / hapus cache, datanya hilang. Export ke file JSON sesekali untuk backup; import untuk memulihkan.</p>
-      <div class="quickset">
-        <button type="button" id="btnExport">⬇ Export file JSON</button>
-        <button type="button" id="btnImport">⬆ Import file JSON (menimpa semua data)</button>
-      </div>
-      <input type="file" id="importFile" accept=".json,application/json" hidden>
-    </div>
-  </details>
 
-  <details class="backup">
-    <summary>Sinkron ke GitHub / Gist (opsional — pakai token pribadi)</summary>
-    <div class="backup-body">
-      <p class="note warn">Token disimpan HANYA di localStorage browser ini, dikirim langsung dari browser ke api.github.com (tidak lewat server manapun) — tapi tetap perlakukan seperti password. Pakai <b>fine-grained token</b> yang scope-nya dibatasi ke satu repo saja, jangan token dengan akses penuh semua repo.</p>
-      <div class="field">
-        <label for="ghToken">GitHub token (classic atau fine-grained)</label>
-        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
-        <div class="field-note">Butuh scope <code>repo</code> (untuk simpan ke repo) dan/atau <code>gist</code> (untuk simpan ke Gist). Buat di github.com → Settings → Developer settings → Personal access tokens.</div>
-      </div>
-
-      <div class="field">
-        <label for="ghAutoSyncMode">Mode Auto-Sync</label>
-        <select id="ghAutoSyncMode">
-          <option value="off">Mati (Hanya sync LocalStorage lokal)</option>
-          <option value="repo">Otomatis Sync ke Repo GitHub (tiap ubah data)</option>
-          <option value="gist">Otomatis Sync ke Gist GitHub (tiap ubah data)</option>
-        </select>
-        <div class="field-note">Bila diaktifkan, data kartu yang kamu tambah/edit/hapus akan tersinkron otomatis ke GitHub setelah 1.5 detik.</div>
-      </div>
-
-      <fieldset data-tone="neutral">
-        <legend>Simpan ke file dalam repo</legend>
-        <div class="row-3">
-          <div class="field"><label for="ghOwner">Owner</label><input type="text" id="ghOwner" placeholder="username"></div>
-          <div class="field"><label for="ghRepo">Repo</label><input type="text" id="ghRepo" placeholder="kartu-saham-log"></div>
-          <div class="field"><label for="ghBranch">Branch</label><input type="text" id="ghBranch" placeholder="main"></div>
-        </div>
-        <div class="field"><label for="ghPath">Path file di repo</label><input type="text" id="ghPath" placeholder="data/kartu-saham.json"></div>
-        <div class="quickset">
-          <button type="button" id="btnGhSave">☁ Simpan ke repo</button>
-          <button type="button" id="btnGhLoad">⬇ Muat dari repo (timpa data lokal)</button>
-        </div>
-        <div class="sync-status" id="ghRepoStatus"></div>
-      </fieldset>
-
-      <fieldset data-tone="gold">
-        <legend>Simpan sebagai Gist</legend>
-        <div class="row-2">
-          <div class="field"><label for="gistId">Gist ID (kosongkan untuk bikin baru)</label><input type="text" id="gistId" placeholder="otomatis terisi setelah simpan pertama"></div>
-          <div class="field"><label for="gistDesc">Deskripsi Gist</label><input type="text" id="gistDesc" placeholder="Log kartu saham"></div>
-        </div>
-        <div class="field checkline"><input type="checkbox" id="gistPublic"><label for="gistPublic">Public (kalau tidak dicentang = secret gist)</label></div>
-        <div class="quickset">
-          <button type="button" id="btnGistSave">📝 Simpan ke Gist</button>
-          <button type="button" id="btnGistLoad">⬇ Muat dari Gist (timpa data lokal)</button>
-        </div>
-        <div class="sync-status" id="ghGistStatus"></div>
-      </fieldset>
-    </div>
-  </details>
 </div>
 
 <div class="overlay" id="exportOverlay" hidden>
@@ -1466,20 +1406,99 @@
   </div>
 </div>
 
-<div class="settings-pop glass" id="settingsPop" hidden>
-  <h3>Tampilan & animasi</h3>
-  <span class="setting-label">Tema premium</span>
-  <div class="setting-options" id="premiumThemes">
-    <button type="button" data-premium-theme="dark">Aurora</button>
-    <button type="button" data-premium-theme="midnight">Midnight</button>
-    <button type="button" data-premium-theme="champagne">Champagne</button>
-    <button type="button" data-premium-theme="light">Siang</button>
-  </div>
-  <span class="setting-label">Intensitas gerak</span>
-  <div class="setting-options" id="motionOptions">
-    <button type="button" data-motion-opt="off">Off</button>
-    <button type="button" data-motion-opt="subtle">Subtle</button>
-    <button type="button" data-motion-opt="dynamic">Dynamic</button>
+<div class="overlay" id="settingsOverlay" hidden>
+  <div class="form-panel settings-panel" role="dialog" aria-modal="true" aria-label="Pengaturan & Data">
+    <div class="detail-head" style="margin-bottom:14px">
+      <h2 style="margin:0;font:700 18px/1.2 var(--serif);color:var(--text)">Pengaturan &amp; Data</h2>
+      <button type="button" class="close-x" id="btnCloseSettings" aria-label="Tutup">✕</button>
+    </div>
+
+    <div class="settings-content" style="display:flex;flex-direction:column;gap:14px">
+      <fieldset data-tone="gold">
+        <legend>Tampilan &amp; Animasi</legend>
+        <div class="field">
+          <span class="setting-label">Tema Premium</span>
+          <div class="setting-options" id="premiumThemes">
+            <button type="button" data-premium-theme="dark">Aurora</button>
+            <button type="button" data-premium-theme="midnight">Midnight</button>
+            <button type="button" data-premium-theme="champagne">Champagne</button>
+            <button type="button" data-premium-theme="light">Siang</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="setting-label">Intensitas Gerak</span>
+          <div class="setting-options" id="motionOptions">
+            <button type="button" data-motion-opt="off">Off</button>
+            <button type="button" data-motion-opt="subtle">Subtle</button>
+            <button type="button" data-motion-opt="dynamic">Dynamic</button>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset data-tone="neutral">
+        <legend>Cadangan Data (Lokal)</legend>
+        <p class="note" style="font-size:11.5px;color:var(--text-dim);margin:0 0 10px;line-height:1.5">Data tersimpan di LocalStorage browser ini saja. Export file JSON untuk cadangan, atau Import untuk memulihkan.</p>
+        <div class="quickset">
+          <button type="button" id="btnExport">⬇ Export file JSON</button>
+          <button type="button" id="btnImport">⬆ Import file JSON (menimpa semua data)</button>
+        </div>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </fieldset>
+
+      <fieldset data-tone="good">
+        <legend>Sinkron ke GitHub / Gist (Auto-Sync)</legend>
+        <p class="note warn" style="font-size:11px;color:#f0899b;margin:0 0 10px;line-height:1.5">Token disimpan HANYA di localStorage browser ini, dikirim langsung dari browser ke api.github.com. Pakai <b>fine-grained token</b> yang dibatasi ke repo/gist terkait.</p>
+        
+        <div class="field">
+          <label for="ghToken">GitHub token (classic atau fine-grained)</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+          <div class="field-note">Butuh scope <code>repo</code> dan/atau <code>gist</code>.</div>
+        </div>
+
+        <div class="field">
+          <label for="ghAutoSyncMode">Mode Auto-Sync</label>
+          <select id="ghAutoSyncMode">
+            <option value="off">Mati (Hanya sync LocalStorage lokal)</option>
+            <option value="repo">Otomatis Sync ke Repo GitHub (tiap ubah data)</option>
+            <option value="gist">Otomatis Sync ke Gist GitHub (tiap ubah data)</option>
+          </select>
+          <div class="field-note">Bila diaktifkan, data kartu yang kamu tambah/edit/hapus akan tersinkron otomatis ke GitHub setelah 1.5 detik.</div>
+        </div>
+
+        <details class="backup" style="margin-top:10px;border-top:1px dashed var(--border-soft);padding-top:10px">
+          <summary style="font-size:12px;font-weight:600;color:var(--gold);cursor:pointer">Simpan ke file dalam repo GitHub</summary>
+          <div class="backup-body" style="margin-top:8px">
+            <div class="row-3">
+              <div class="field"><label for="ghOwner">Owner</label><input type="text" id="ghOwner" placeholder="username"></div>
+              <div class="field"><label for="ghRepo">Repo</label><input type="text" id="ghRepo" placeholder="kartu-saham-log"></div>
+              <div class="field"><label for="ghBranch">Branch</label><input type="text" id="ghBranch" placeholder="main"></div>
+            </div>
+            <div class="field"><label for="ghPath">Path file di repo</label><input type="text" id="ghPath" placeholder="data/kartu-saham.json"></div>
+            <div class="quickset">
+              <button type="button" id="btnGhSave">☁ Simpan ke repo</button>
+              <button type="button" id="btnGhLoad">⬇ Muat dari repo (timpa data lokal)</button>
+            </div>
+            <div class="sync-status" id="ghRepoStatus" style="margin-top:6px"></div>
+          </div>
+        </details>
+
+        <details class="backup" style="margin-top:10px;border-top:1px dashed var(--border-soft);padding-top:10px">
+          <summary style="font-size:12px;font-weight:600;color:var(--emerald);cursor:pointer">Simpan sebagai Gist GitHub</summary>
+          <div class="backup-body" style="margin-top:8px">
+            <div class="row-2">
+              <div class="field"><label for="gistId">Gist ID (kosongkan untuk bikin baru)</label><input type="text" id="gistId" placeholder="otomatis terisi setelah simpan pertama"></div>
+              <div class="field"><label for="gistDesc">Deskripsi Gist</label><input type="text" id="gistDesc" placeholder="Log kartu saham"></div>
+            </div>
+            <div class="field checkline"><input type="checkbox" id="gistPublic"><label for="gistPublic">Public Gist</label></div>
+            <div class="quickset">
+              <button type="button" id="btnGistSave">📝 Simpan ke Gist</button>
+              <button type="button" id="btnGistLoad">⬇ Muat dari Gist (timpa data lokal)</button>
+            </div>
+            <div class="sync-status" id="ghGistStatus" style="margin-top:6px"></div>
+          </div>
+        </details>
+      </fieldset>
+    </div>
   </div>
 </div>
 
@@ -2398,9 +2417,23 @@
   });
 
   $("detailOverlay").addEventListener("click", (ev) => { if (ev.target.id === "detailOverlay") closeDetail(); });
+  $("settingsOverlay").addEventListener("click", (ev) => { if (ev.target.id === "settingsOverlay") closeSettings(); });
+  $("btnCloseSettings").addEventListener("click", closeSettings);
   $("confirmOverlay").addEventListener("click", (ev) => { if (ev.target.id === "confirmOverlay") settleConfirm(false); });
   $("confirmYes").addEventListener("click", () => settleConfirm(true));
   $("confirmNo").addEventListener("click", () => settleConfirm(false));
+
+  function openSettings() {
+    $("settingsOverlay").hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => $("settingsOverlay").classList.add("show"));
+  }
+
+  function closeSettings() {
+    $("settingsOverlay").classList.remove("show");
+    const finish = () => { $("settingsOverlay").hidden = true; document.body.classList.remove("modal-open"); };
+    if (REDUCE_MOTION) finish(); else setTimeout(finish, 180);
+  }
 
   // ---------- Keyboard shortcuts ----------
 
@@ -2417,14 +2450,14 @@
     }
     if (ev.key === "Escape") {
       if (!$("commandPalette").hidden) { closeCommandPalette(); return; }
-      if (!$("settingsPop").hidden) { $("settingsPop").hidden = true; return; }
+      if (!$("settingsOverlay").hidden) { closeSettings(); return; }
       if (!$("confirmOverlay").hidden) { settleConfirm(false); return; }
       if (!$("exportOverlay").hidden) { closeExport(); return; }
       if (!$("detailOverlay").hidden) { closeDetail(); return; }
       if (!$("overlay").hidden) { closeForm(); return; }
       return;
     }
-    if (typingInField() || !$("overlay").hidden || !$("detailOverlay").hidden || !$("confirmOverlay").hidden || !$("exportOverlay").hidden) return;
+    if (typingInField() || !$("overlay").hidden || !$("detailOverlay").hidden || !$("confirmOverlay").hidden || !$("exportOverlay").hidden || !$("settingsOverlay").hidden) return;
     if (ev.key === "n" || ev.key === "N") { ev.preventDefault(); openForm(null); }
     else if (ev.key === "/") { ev.preventDefault(); $("search").focus(); }
   });
@@ -2495,7 +2528,7 @@
     { label: "Filter fresh buy", hint: "Filter", run: () => toggleFilter("freshBuy") },
     { label: "Filter punya RR", hint: "Filter", run: () => toggleFilter("punyaRR") },
     { label: "Reset pencarian dan filter", hint: "Reset", run: resetFilters },
-    { label: "Buka pengaturan tampilan", hint: "UI", run: () => { $("settingsPop").hidden = false; } }
+    { label: "Buka pengaturan & data", hint: "UI", run: openSettings }
   ];
 
   function commandItems() {
@@ -2589,7 +2622,7 @@
   $("btnResetFilters").addEventListener("click", resetFilters);
   $("btnEmptyAdd").addEventListener("click", () => openForm(null));
   $("btnCommand").addEventListener("click", openCommandPalette);
-  $("btnSettings").addEventListener("click", () => { $("settingsPop").hidden = !$("settingsPop").hidden; });
+  $("btnSettings").addEventListener("click", openSettings);
   $("commandSearch").addEventListener("input", renderCommands);
   $("commandList").addEventListener("click", ev => {
     const btn = ev.target.closest("[data-command]"); if (!btn) return;
