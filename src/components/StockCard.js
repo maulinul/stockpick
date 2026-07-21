@@ -1,4 +1,4 @@
-/* src/components/StockCard.js - Individual Stock Card Component */
+/* src/components/StockCard.js - Individual Stock Card Box Component */
 
 import { el, esc } from '../utils/dom.js';
 import { fmtTanggal } from '../utils/date.js';
@@ -75,25 +75,27 @@ export function renderStockCard({ entry, index, allEntries, isSelected, onSelect
     'data-signal': signal,
     style: `--i:${index}`
   }, [
-    el('div', { style: 'display:flex;align-items:center;padding:4px 0 0 16px' }, [
+    // Top Bar (Checkbox & Date/Time)
+    el('div', { class: 'card-top-bar' }, [
       el('input', {
         type: 'checkbox',
         class: 'card-batch-check',
         checked: isSelected,
         onchange: () => onSelect(entry.id)
-      })
+      }),
+      el('span', { class: 'card-date' }, [
+        el('span', { text: `${fmtTanggal(entry.tanggal)} ${entry.jam || ''}` })
+      ])
     ]),
+
+    // Main Card Body Button
     el('button', {
       type: 'button',
       class: 'card-btn',
       'aria-label': `Detail $${entry.ticker}, ${fmtTanggal(entry.tanggal)}`,
       onclick: () => onOpenDetail(entry)
     }, [
-      el('span', { class: 'card-date' }, [
-        el('span', { text: fmtTanggal(entry.tanggal) }),
-        el('span', { text: entry.jam || '' })
-      ]),
-      el('span', { class: 'card-mid' }, [
+      el('div', { class: 'card-header-row' }, [
         el('div', {
           class: 'card-tags',
           html: `
@@ -102,15 +104,26 @@ export function renderStockCard({ entry, index, allEntries, isSelected, onSelect
             ${!s.fresh && ratio == null ? '<span class="status-tag">Watchlist</span>' : ''}
           `
         }),
-        el('span', { class: 'card-ticker', text: `$${entry.ticker}` }),
-        el('span', {
-          class: 'card-price-row',
-          html: `<span class="card-price">${esc(entry.harga)}</span>${deltaBadgeHtml}`
-        }),
-        entry.desc ? el('span', { class: 'card-desc', text: entry.desc }) : null,
-        el('div', { html: rrBarHtml })
+        el('span', { class: 'card-ticker', text: `$${entry.ticker}` })
       ]),
-      el('span', { class: 'card-open-hint', text: 'Detail »' })
+
+      el('div', {
+        class: 'card-price-row',
+        html: `<span class="card-price">${esc(entry.harga)}</span>${deltaBadgeHtml}`
+      }),
+
+      entry.desc ? el('p', { class: 'card-desc', text: entry.desc }) : null,
+
+      (s.kondisiS || s.kondisiR) ? el('div', { class: 'card-lvls' }, [
+        s.kondisiS ? el('span', { class: 'card-lvl entry', html: `<span class="k">S:</span> <span class="v">${esc(s.kondisiS)}</span>` }) : null,
+        s.kondisiR ? el('span', { class: 'card-lvl stop', html: `<span class="k">R:</span> <span class="v">${esc(s.kondisiR)}</span>` }) : null
+      ]) : null,
+
+      el('div', { html: rrBarHtml }),
+
+      el('div', { class: 'card-footer-row' }, [
+        el('span', { class: 'card-open-hint', text: 'Detail Analisis »' })
+      ])
     ])
   ]);
 
