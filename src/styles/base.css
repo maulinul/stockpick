@@ -1,4 +1,4 @@
-/* src/styles/base.css - Reset & Core Styles */
+/* src/styles/base.css - Reset & Core Styles (Full Width Layout) */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -6,6 +6,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
   min-height: 100%;
   background:
     radial-gradient(880px 480px at 12% -8%, var(--gold-soft) 0%, transparent 60%),
@@ -17,6 +18,7 @@ html, body {
   transition: background 0.3s var(--ease-default), color 0.3s var(--ease-default);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body.modal-open {
@@ -32,11 +34,12 @@ button {
   color: var(--text);
 }
 
+/* Full Width Stage - Spans 100% from left to right edge */
 .stage {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-5) 96px;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-5) var(--space-6) 96px;
 }
 
 /* Glass panel utility */
